@@ -73,5 +73,27 @@ int mymod(int a, int b){
     }
     return r;
 }
+int prime(int a){
+    int cont =0;
+    if(a <= 1){
+        return false;
+    }
+    else{
+        for(int i=2; i < a; i++){
+            if(mymod(a, i) == 0){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+void pnr(int a, int b){
+    for(int i = a; i <= b; i++){
+        if(prime(i)){
+            std::cout << i << " ";
+        }
+    }
+}
 
 

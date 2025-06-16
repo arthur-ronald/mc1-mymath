@@ -47,5 +47,12 @@ int main(){
             std::cin >> b;
             std::cout << a << " MOD " << b << " = " << mymod(a, b) << std::endl;
         }
+        else if(p == 5){
+            int a, b;
+            std::cout << "Digite o intervalo de procura dos numeros primos: " << std::endl;
+            std::cin >> a >> b;
+            pnr(a, b); 
+            std::cout << std::endl;
+        }
     }
 }
