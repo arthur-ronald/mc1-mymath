@@ -17,7 +17,7 @@ int main(){
                   << "[2] Teto\n"
                   << "[3] Div\n"
                   << "[4] Mod\n"
-                  << "[5] PNI" << std::endl;
+                  << "[5] Números primos no intervalo" << std::endl;
         std::cin >> p;
         if(p == 1){
             double j;
@@ -64,5 +64,12 @@ int main(){
         std::cout << "Digite a chave da crifra: ";
         std::cin >> b;
         std::cout << "Frase cifrada: " << cesar(a, b) << std::endl;
+    }
+    else if(n == 3){
+        int a, b;
+        std::cout << "Digite os numeros para calcular o mdc: ";
+        std::cin >> a >> b;
+        std::cout << "O mdc entre " << a << " e " << b << " é igual a: " << std::endl;
+        mymdc(a, b);
     }
 }

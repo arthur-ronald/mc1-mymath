@@ -117,9 +117,21 @@ std::string cesar(std::string a, int b){
             }
         }
     }
-    
-
     return a;
+}
+
+int mymdc(int a, int b){
+
+    int m = mydiv(a, b);
+    int n = mymod(a, b);
+    std::cout << a << " = " << m << " * " << b << " + " << n << std::endl;
+    if(n == 0){
+        std::cout << "Resultado: " << b << std::endl;
+        return b;
+    }
+    else{
+    return mymdc(b, n);
+    }
 }
 
 
