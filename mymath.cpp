@@ -55,4 +55,14 @@ int main(){
             std::cout << std::endl;
         }
     }
+    else if(n == 2){
+        std::cin.ignore();
+        std::string a;
+        int b;
+        std::cout << "Digite a frase que será cifrada: ";
+        getline(std::cin, a);
+        std::cout << "Digite a chave da crifra: ";
+        std::cin >> b;
+        std::cout << "Frase cifrada: " << cesar(a, b) << std::endl;
+    }
 }

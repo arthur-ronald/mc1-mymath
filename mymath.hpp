@@ -1,4 +1,5 @@
 #pragma Once
+#include <string>
 
 double myabs(double a){
     if(a >= 0){
@@ -94,6 +95,31 @@ void pnr(int a, int b){
             std::cout << i << " ";
         }
     }
+}
+
+std::string cesar(std::string a, int b){
+    int chave = mymod(b, 26);
+    for(int i=0; i < a.length(); i++){
+        if(a[i] >= 65 and a[i] <= 90){
+            if((a[i] + chave) > 90){
+                a[i] = 64 + mymod(a[i] + chave, 90);
+            }
+            else{
+                a[i] += chave;
+            }
+        }
+        else if(a[i] >= 97 and a[i] <= 122){
+            if((a[i] + chave) > 122){
+                a[i] = 96 + mymod(a[i] + chave, 122);
+            }
+            else{
+                a[i] += chave;
+            }
+        }
+    }
+    
+
+    return a;
 }
 
 
