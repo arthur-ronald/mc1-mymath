@@ -120,7 +120,7 @@ std::string cesar(std::string a, int b){
     return a;
 }
 
-int mymdc(int a, int b){
+int mymdc_sbs(int a, int b){
 
     int m = mydiv(a, b);
     int n = mymod(a, b);
@@ -130,8 +130,32 @@ int mymdc(int a, int b){
         return b;
     }
     else{
-    return mymdc(b, n);
+        return mymdc_sbs(b, n);
     }
+}
+
+int mymdc(int a, int b){
+    int n = mymod(a, b);
+    if(n == 0){
+        return b;
+    }
+    else{
+        return mymdc(b, n);
+    }
+}
+
+int bezout(int a, int b){
+    int s = 1;
+    int t = mydiv(a, b);
+    int result = mymod(a, b);
+    if(mymod(a, b) == 0){
+        return 0;
+    }
+    else{
+        std::cout << result << " = " << '(' << s << ')' << " * " << a <<  " + "<<'(' << -t << ')' << " * " << b << std::endl;
+        return bezout(b, mymod(a, b));
+    }
+    return 0;
 }
 
 

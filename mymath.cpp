@@ -70,6 +70,13 @@ int main(){
         std::cout << "Digite os numeros para calcular o mdc: ";
         std::cin >> a >> b;
         std::cout << "O mdc entre " << a << " e " << b << " é igual a: " << std::endl;
-        mymdc(a, b);
+        mymdc_sbs(a, b);
+    }
+    else if(n == 4){
+        int a, b;
+        std::cout << "Digite os numeros para identidade de bezout: ";
+        std::cin >> a >> b;
+        std::cout << "o resultado é: " << std::endl;
+        bezout(a, b);
     }
 }
