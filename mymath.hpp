@@ -1,5 +1,21 @@
 #pragma Once
 #include <string>
+#include <vector>
+
+struct Result {
+    long long mdc, s, t;
+
+};
+
+long long mypow(long long a, long long b){
+    if(b == 0){
+        return 1;
+    }
+    else{
+        return a * mypow(a, b - 1);
+    }
+    return 0;
+}
 
 double myabs(double a){
     if(a >= 0){
@@ -9,8 +25,8 @@ double myabs(double a){
         return a * -1;
     }
 }
-int myfloor(double a){
-    int i = 0;
+long long myfloor(double a){
+    long long i = 0;
     if(a >= 0){
         while(i <= a){
             i++;
@@ -25,8 +41,8 @@ int myfloor(double a){
     }
 }
 
-int myceil(double a){
-    int i = 0;
+long long myceil(double a){
+    long long i = 0;
     if(a >= 0){
         while(i < a){
             i++;
@@ -41,14 +57,14 @@ int myceil(double a){
     }
 }
 
-int mydiv(int a, int b){
+long long mydiv(long long a, long long b){
     if(b == 0){
         return -1;
     }
     bool negativo = (a < 0) ^ (b < 0);
-    int A = myabs(a);
-    int B = myabs(b);
-    int q = 0;
+    long long A = myabs(a);
+    long long B = myabs(b);
+    long long q = 0;
 
     while(A >= B){
         A -= B;
@@ -62,25 +78,25 @@ int mydiv(int a, int b){
     }
 }
 
-int mymod(int a, int b){
+long long mymod(long long a, long long b){
     if(b == 0){
         return -1;
     }
-    int B = myabs(b);
-    int q = mydiv(a, b);
-    int r = a - (b * q);
+    long long B = myabs(b);
+    long long q = mydiv(a, b);
+    long long r = a - (b * q);
     if(r < 0){
         r +=B;
     }
     return r;
 }
-int prime(int a){
-    int cont =0;
+long long prime(long long a){
+    long long cont =0;
     if(a <= 1){
         return false;
     }
     else{
-        for(int i=2; i < a; i++){
+        for(long long i=2; i < a; i++){
             if(mymod(a, i) == 0){
                 return false;
             }
@@ -89,17 +105,17 @@ int prime(int a){
     }
 }
 
-void pnr(int a, int b){
-    for(int i = a; i <= b; i++){
+void pnr(long long a, long long b){
+    for(long long i = a; i <= b; i++){
         if(prime(i)){
             std::cout << i << " ";
         }
     }
 }
 
-std::string cesar(std::string a, int b){
-    int chave = mymod(b, 26);
-    for(int i=0; i < a.length(); i++){
+std::string cesar(std::string a, long long b){
+    long long chave = mymod(b, 26);
+    for(long long i=0; i < a.length(); i++){
         if(a[i] >= 65 and a[i] <= 90){
             if((a[i] + chave) > 90){
                 a[i] = 64 + mymod(a[i] + chave, 90);
@@ -120,10 +136,10 @@ std::string cesar(std::string a, int b){
     return a;
 }
 
-int mymdc_sbs(int a, int b){
+long long mymdc_sbs(long long a, long long b){
 
-    int m = mydiv(a, b);
-    int n = mymod(a, b);
+    long long m = mydiv(a, b);
+    long long n = mymod(a, b);
     std::cout << a << " = " << m << " * " << b << " + " << n << std::endl;
     if(n == 0){
         std::cout << "Resultado: " << b << std::endl;
@@ -134,8 +150,8 @@ int mymdc_sbs(int a, int b){
     }
 }
 
-int mymdc(int a, int b){
-    int n = mymod(a, b);
+long long mymdc(long long a, long long b){
+    long long n = mymod(a, b);
     if(n == 0){
         return b;
     }
@@ -144,18 +160,81 @@ int mymdc(int a, int b){
     }
 }
 
-int bezout(int a, int b){
-    int s = 1;
-    int t = mydiv(a, b);
-    int result = mymod(a, b);
+Result bezout(long long a, long long b){
+    if(b == 0){
+        return {a, 1, 0};
+    }
+    else{
+        Result res = bezout(b, mymod(a, b));
+        long long mdc = res.mdc;
+        long long x1 = res.s;
+        long long y1 = res.t;
+        long long x = y1;
+        long long y = x1 - ((mydiv(a, b)) * y1);
+        return {mdc, x, y};
+    }
+}
+
+long long bezout_sbs(long long a, long long b){
+    long long s = 1;
+    long long t = mydiv(a, b);
+    long long result = mymod(a, b);
     if(mymod(a, b) == 0){
         return 0;
     }
     else{
         std::cout << result << " = " << '(' << s << ')' << " * " << a <<  " + "<<'(' << -t << ')' << " * " << b << std::endl;
-        return bezout(b, mymod(a, b));
+        return bezout_sbs(b, mymod(a, b));
     }
     return 0;
 }
 
+long long tot_pq(long long a, long long b){
+    return (a - 1)*(b - 1);
+}
 
+long long mod_pow(long long a, long long b, long long mod) {
+    long long result = 1;
+    a = a % mod;
+    while (b > 0) {
+        if (b % 2 == 1) {
+            result = (result * a) % mod;
+        }
+        a = (a * a) % mod;
+        b /= 2;
+    }
+    return result;
+}
+
+void rsa(long long a, long long b, std::string c){
+    std::vector<long long> criptografado;
+    std::string descriptografado;
+    long long n = a * b;
+    long long r = tot_pq(a, b);
+    long long e;
+    for(long long i=2; i < r; i++){
+        if(mymdc(i, r) == 1){
+            e = i;
+            break;
+        }
+    }
+    long long d=1;
+    while(mymod(d*e, r) != mymod(1, r)){
+        d++;
+    }
+    std::cout << "n: "<< n << " r: " << r << " e: " << e << " d: " << d << std::endl;
+    for(long long i = 0; i < c.size(); i++){
+        int crip = mod_pow(c[i], e, n);
+        int descrip = mod_pow(crip, d, n);
+        criptografado.push_back(crip);
+        descriptografado += descrip;
+        
+    }
+    for(auto m : criptografado){
+        std::cout << m << " ";
+    }
+    
+    std::cout << std::endl << descriptografado << std::endl;
+
+
+}

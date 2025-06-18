@@ -76,7 +76,23 @@ int main(){
         int a, b;
         std::cout << "Digite os numeros para identidade de bezout: ";
         std::cin >> a >> b;
+        Result res = bezout(a, b);
         std::cout << "o resultado é: " << std::endl;
-        bezout(a, b);
+        bezout_sbs(a, b);
+        std::cout << res.mdc << " = " << '(' << res.s << ") * " << a << " + (" << res.t << ") * " << b << std::endl; 
+
+        std::cout << "MDC: " << res.mdc << std::endl;
+        std::cout << "s: " << res.s << " t: " << res.t << std::endl;
+ 
+    }
+    else if(n == 5){
+        int a, b;
+        std::string c;
+        std::cout << "Digite a mensagem a ser criptografada: ";
+        std::cin.ignore();
+        getline(std::cin, c);
+        std::cout << "Digite os parametros: ";
+        std::cin >> a >> b;
+        rsa(a, b, c);
     }
 }
