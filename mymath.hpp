@@ -7,16 +7,6 @@ struct Result {
 
 };
 
-long long mypow(long long a, long long b){
-    if(b == 0){
-        return 1;
-    }
-    else{
-        return a * mypow(a, b - 1);
-    }
-    return 0;
-}
-
 double myabs(double a){
     if(a >= 0){
         return a;
