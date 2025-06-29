@@ -85,6 +85,7 @@ int main(){
         std::cout << "s: " << res.s << " t: " << res.t << std::endl;
  
     }
+
     else if(n == 5){
         int a, b;
         std::string c;
@@ -93,6 +94,17 @@ int main(){
         getline(std::cin, c);
         std::cout << "Digite os parametros: ";
         std::cin >> a >> b;
-        rsa(a, b, c);
+        rsa_parcial(a, b, c);
+    }
+
+    else if(n == 6){
+        int a, b;
+        std::string c;
+        std::cout << "Digite a mensagem a ser criptografada: ";
+        std::cin.ignore();
+        getline(std::cin, c);
+        std::cout << "Digite os parametros: ";
+        std::cin >> a >> b;
+        rsa_completa(a, b, c);
     }
 }

@@ -160,19 +160,20 @@ long long mymdc(long long a, long long b){
     }
 }
 
-Result bezout(long long a, long long b){
-    if(b == 0){
+Result bezout(int a, int b) {
+    if (b == 0) {
         return {a, 1, 0};
     }
-    else{
-        Result res = bezout(b, mymod(a, b));
-        long long mdc = res.mdc;
-        long long x1 = res.s;
-        long long y1 = res.t;
-        long long x = y1;
-        long long y = x1 - ((mydiv(a, b)) * y1);
-        return {mdc, x, y};
-    }
+    Result res = bezout(b, a % b);
+
+    int mdc = res.mdc;
+    int s1 = res.s;
+    int t1 = res.t;
+
+    int s = t1;
+    int t = s1 - (a / b) * t1;
+
+    return {mdc, s, t};
 }
 
 long long bezout_sbs(long long a, long long b){
@@ -206,7 +207,47 @@ long long mod_pow(long long a, long long b, long long mod) {
     return result;
 }
 
-void rsa(long long a, long long b, std::string c){
+void rsa_parcial(long long a, long long b, std::string c){
+    std::string letras = "abcdefghkijlmnopqrstuvwxyz ";
+    std::vector<long long> criptografado;
+    std::string descriptografado;
+    long long n = a * b;
+    long long r = tot_pq(a, b);
+    long long e;
+    for(int i = 0; i < c.size(); i++){
+            c[i] = letras.find(c[i]);
+    }
+    for(long long i=2; i < r; i++){
+        if(mymdc(i, r) == 1){
+            e = i;
+            break;
+        }
+    }
+    Result res = bezout(e, r);
+    long long d = mymod(mymod(res.s, r + r), r); 
+    std::cout << "n: "<< n << " r: " << r << " e: " << e << " d: " << d << std::endl;
+    for(long long i = 0; i < c.size(); i++){
+        if(c[i] == ' '){
+            descriptografado.push_back(26);
+            criptografado.push_back(26);
+        }
+        else{
+            int crip = mod_pow(c[i], e, n);
+            int descrip = mod_pow(crip, d, n);
+            criptografado.push_back(crip);
+            descriptografado.push_back(mymod(descrip, 27));
+        }
+    }
+    for(auto m : criptografado){
+        std::cout << m << " ";
+    }
+    std::cout << std::endl;
+    for(auto m : descriptografado){
+        std::cout << letras[m];
+    }
+    std::cout << std::endl;
+}
+void rsa_completa(long long a, long long b, std::string c){
     std::vector<long long> criptografado;
     std::string descriptografado;
     long long n = a * b;
@@ -218,10 +259,8 @@ void rsa(long long a, long long b, std::string c){
             break;
         }
     }
-    long long d=1;
-    while(mymod(d*e, r) != mymod(1, r)){
-        d++;
-    }
+    Result res = bezout(e, r);
+    long long d = mymod(mymod(res.s, r + r), r); 
     std::cout << "n: "<< n << " r: " << r << " e: " << e << " d: " << d << std::endl;
     for(long long i = 0; i < c.size(); i++){
         int crip = mod_pow(c[i], e, n);
@@ -233,8 +272,6 @@ void rsa(long long a, long long b, std::string c){
     for(auto m : criptografado){
         std::cout << m << " ";
     }
-    
+
     std::cout << std::endl << descriptografado << std::endl;
-
-
 }
